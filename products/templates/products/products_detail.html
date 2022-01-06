@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+{% load humanize%}
+{% block content %}
+<div name = "디테일페이지">
+    <div name = "상품메인"> 
+        <div name="이미지">
+            <img src="{{ product.thumb_img_url }}">
+        </div>
+        <div name="상품정보">
+            <div>
+                <h1>{{ product.display_name }}</h1>
+                <form action="{% url 'cart:add_product'%}" method="post">
+                {% csrf_token %}
+                    <select name="option_id">
+                    {% for option in options %}
+                    {% autoescape off %}
+                        <option style="color:{{ option.c }}" value={{option.id}}>사이즈 : {{option.option_1_name}} 컬러 : <span>{{option.color}}</span></option>
+                    {% endautoescape %}
+                    {% endfor %}
+                    </select>
+                    <div>
+                        <input type="number" name="quantity" min="1" max="10" value=1>
+                        <button type="submit"><div>카트추가</div></button>
+                    </div>
+                </form>
+
+                <div>
+                    {% if product.is_sold_out %}
+                    <span>재고 소진됨</span>
+                    {% else %}
+                    <span>{{ product.price|intcomma }}원</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div name="질문들" class="">
+        <h5>{{ questions.count }}개의 질문이 있습니다.</h5>
+        <div>
+            <ul>
+            {% for question in questions %}
+
+                <li>{{forloop.counter}}. {{ question.body }}</li>
+                <div>
+                    <a href="{% url 'products:question_modify' product.id question.id  %}">수정</a>
+                    <a href="{% url 'products:question_delete' product.id question.id  %}">삭제</a>
+                </div>
+            {% endfor %}
+            </ul>
+        </div>
+        {% if user.is_authenticated %}
+        <form action="{% url 'products:question_create' product.id %}" method="post">
+        {% csrf_token %}
+        <textarea name="body" id="body" rows="15"></textarea>
+        <br>
+        <input type="submit" value="질문등록">
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  web:
+    build: .:/test.dockerfile
+    container_name : web
+    ports:
+      - "8000:8000"
+    # expose:
+    #   - "8000"
+    volumes:
+      - .:/usr/src/app:z
+    depends_on:
+      - db
+    environment:
+      - VIRTUAL_HOST=192.168.56.1
+      - VIRTUAL_PORT=8000
+      # - VIRTUAL_PROTO=uwsgi
+  db:
+    image: mariadb:latest
+    container_name: db
+    expose:
+      - "3306"
+    environment:
+      - MARIADB_DATABASE=test
+      - MARIADB_USER=root
+      - MARIADB_ROOT_PASSWORD=1234
+
+  # nginx-proxy:
+  #   image: nginxproxy/nginx-proxy
+  #   container_name: nginx-proxy
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+  #     - ./nginx-proxy/default_location:/etc/nginx/vhost.d/default_location
+  #     - ./base/static:/var/www/html/static
+  #     - ./media:/var/www/html/media
+    
+#python manage.py createsuperuser

@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% load static %}
+{% load humanize %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}"><link rel="stylesheet" type="text/css" href="{% static 'product.css' %}">
+<div class="product-con">
+    <div >
+        <img class="main-image" src="http://localhost:8000/static/images/main_logo.jpg" alt="">
+    </div>
+    <div class="card-con">
+        {% if product_list %}
+        {% for product in product_list %}
+        <a class= "product-card reactive"id="product_cards"
+            href="{% url 'products:detail' product.id %}">
+            <div data-before="VIEW MORE">
+                <img src="{{ product.thumb_img_url }}">
+            </div>
+            <div>
+                <div class="market-name _a">
+                    {{ product.market}}
+                </div>
+                <div class="product-name _a">
+                    {{ product.display_name}}
+                </div>
+                <div class="product-price _a">
+                    {{ product.price|intcomma }}
+                </div>
+                <div class="product-color _a">
+                    {% autoescape off %}
+                    {{ product.colors|safe }}
+                    {% endautoescape %}
+                </div>    
+            </div>     
+        </a>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <div>상품이 없습니다.</div>
+        </tr>
+        {% endif %}
+
+
+    </div>  
+    
+    <div>
+        <ul class="pagination justify-content-center">
+            <!-- 이전페이지 -->
+            <li class="page-item">
+                <a class="page-link" href="?page=1&search={{request.GET.search}}">처음</a>
+            </li>
+            {% if product_list.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ product_list.previous_page_number }}&search={{request.GET.search}}">이전</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+            </li>
+            {% endif %}
+            {% for page_number in product_list.paginator.page_range %}
+            {% if page_number >= product_list.number|add:-5 and page_number <= product_list.number|add:5 %}
+                {% if page_number == product_list.number %}
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="?page={{ page_number }}&search={{request.GET.search}}">{{ page_number }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_number }}&search={{request.GET.search}}">{{ page_number }}</a>
+                </li>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+            <!-- 다음페이지 -->
+            {% if product_list.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ product_list.next_page_number }}&search={{request.GET.search}}">다음</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+            </li>
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{product_list.paginator.count}}&search={{request.GET.search}}">끝</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+{% endblock %}

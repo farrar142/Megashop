@@ -1,0 +1,23 @@
+{
+  "name": "assignment-12-21",
+  "version": "1.0.0",
+  "description": "npm install",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css": "tailwindcss -i ./base/static/common.base.css -o ./base/static/common.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farrar142/Assignment-12-21.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/farrar142/Assignment-12-21/issues"
+  },
+  "homepage": "https://github.com/farrar142/Assignment-12-21#readme",
+  "dependencies": {
+    "tailwindcss": "^3.0.7"
+  }
+}

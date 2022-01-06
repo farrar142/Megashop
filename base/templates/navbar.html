@@ -1,0 +1,55 @@
+<!-- 네비게이션바 -->
+{% load static %}
+<div class = nav-container>
+    <ul class="nav left">
+        <li id = "home" class="nav-item">
+            <a href="{% url 'index' %}">
+                <i class="fa-solid fa-house"></i>
+            </a>
+        </li>
+        <li id = "logo" class="nav-item">
+            <span>MegaShop</span>
+        </li>
+    </ul>
+    <ul class="nav center">
+        <form method="get" class="nav-item">
+            <input name="search" type="text" placeholder="검색어 입력" value={{request.GET.search}}>
+            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </ul>
+    <ul class="nav right">
+        <li id = "products"class="nav-item">
+            <a  href="{% url 'products:list' %}">
+                <i class="fa-solid fa-list"></i>
+            </a>
+        </li>
+        {% if user.is_authenticated %}
+        <li id="search"class="nav-item">
+            <a id = "장바구니" href="{% url 'cart:detail' %}">
+                {% if user.is_cart %}
+                <i class="fa-solid fa-cart-shopping"></i>
+                {% else %}
+                <i class="fa-solid fa-dolly-empty"></i>
+                {% endif %}
+            </a>                    
+        </li>
+        <li id="s-button"class="nav-item">
+            <a id = "로그아웃" href="{% url 'accounts:signout' %}">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a href="{% url 'accounts:signup' %}">
+                <i class="fa-solid fa-user-plus"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'accounts:signin' %}">                        
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+<table class="space-between"></table>

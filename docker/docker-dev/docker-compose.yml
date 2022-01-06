@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    container_name : web
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../.:/usr/src/app:z
+    depends_on:
+      - db
+  db:
+    image: mariadb:latest
+    container_name: db
+    expose:
+      - "3306"
+    environment:
+      - MARIADB_DATABASE=djangodatabase
+      - MARIADB_USER=root
+      - MARIADB_ROOT_PASSWORD=1234
