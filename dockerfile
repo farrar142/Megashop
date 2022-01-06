@@ -8,5 +8,5 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN pip3 install -r requirements/prod.txt
+RUN pip3 install -r requirements/dev.txt
 RUN python3 manage.py test

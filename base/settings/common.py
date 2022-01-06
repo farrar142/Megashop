@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = 'django-insecure-%i!=0=_kqsb*u@+40dm9^c7@%zn4476#%p(3tqf8$qp6r7s2*$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -82,29 +82,29 @@ WSGI_APPLICATION = 'base.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # mariadb
-DATABASES = {
-    'default': {
-    	# django db를 mysql로 사용하겠음
-        'ENGINE': 'django.db.backends.mysql',
-        # DB 이름 지어주기
-        'NAME': 'test',
-        # 사용자 유저 계정 생성 후 입력하기
-        'USER': 'root',
-        # 사용자 비밀번호 생성 후 입력하기
-        'PASSWORD': '1234',
-        # default host인 localhost
-        'HOST': 'db',
-        # MySQL default 포트 번호
-        'PORT': '3306',
-    }
-}
-#default db
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#     	# django db를 mysql로 사용하겠음
+#         'ENGINE': 'django.db.backends.mysql',
+#         # DB 이름 지어주기
+#         'NAME': 'test',
+#         # 사용자 유저 계정 생성 후 입력하기
+#         'USER': 'root',
+#         # 사용자 비밀번호 생성 후 입력하기
+#         'PASSWORD': '1234',
+#         # default host인 localhost
+#         'HOST': 'db',
+#         # MySQL default 포트 번호
+#         'PORT': '3306',
 #     }
 # }
+#default db
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

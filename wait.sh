@@ -1,14 +1,14 @@
 #!/bin/bash
 
-mariadb_host="db"  
-mariadb_port=3306
+# mariadb_host="db"  
+# mariadb_port=3306
 
-# Wait for the postgres docker to be running
-while ! nc $mariadb_host $mariadb_port;do  
-  >&2 echo -e "\033[36m"== mariadb_status[Not Ready] =="\033[0m"
-  sleep 1
-done
-echo -e "\033[36m"== mariadb_status[Ready] =="\033[0m"
+# # Wait for the postgres docker to be running
+# while ! nc $mariadb_host $mariadb_port;do  
+#   >&2 echo -e "\033[36m"== mariadb_status[Not Ready] =="\033[0m"
+#   sleep 1
+# done
+# echo -e "\033[36m"== mariadb_status[Ready] =="\033[0m"
 
 # Apply database migrations
 #echo -e "\033[36m"== Apply database migrations =="\033[0m" 
