@@ -108,6 +108,7 @@ class CustomView(LoginView):
 
         return redirect("index")
     
+    @classonlymethod
     @csrf_exempt
     def as_view(cls, **initkwargs):
         super().as_view(cls, **initkwargs)
