@@ -109,4 +109,4 @@ class CustomView(LoginView):
         return redirect("index")
     
     def as_view(**initkwargs):
-        super().as_view()
+        super().as_view(**initkwargs)
