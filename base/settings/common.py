@@ -149,7 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "accounts.User"
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / '/static/',
 ]
 STATIC_ROOT = BASE_DIR / 'static'
 
