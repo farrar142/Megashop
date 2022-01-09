@@ -6,8 +6,8 @@ app_name = 'accounts'
 
 urlpatterns = [
     path('signup/', views.signup, name='signup'),
-    path('signin/', auth_views.LoginView.as_view(template_name='accounts/signin.html'), name='signin'),
-    path('signout/', auth_views.LogoutView.as_view(), name='signout'),
+    path('signin/', views.LoginView.as_view(template_name='accounts/signin.html'), name='signin'),
+    path('signout/', views.LogoutView.as_view(), name='signout'),
     path('idfinder/', views.idfinder, name='idfinder'),
     path('signin/kakao/', views.Kakao_login, name = "kakao_signin"),
     path('signin/kakao/callback', views.Kakao_login_callback, name="kakao_signin_callback"),
