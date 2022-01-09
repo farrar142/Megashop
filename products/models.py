@@ -32,8 +32,8 @@ class Product(models.Model):
             return self.image.url
         else:
             try:
-                #return f"http://site1.honeycombpizza.link/media/products/{self.id}.jpg"
-                return f"http://localhost:8000/media/products/{self.id}.jpg"
+                return f"http://site1.honeycombpizza.link/media/products/{self.id}.jpg"
+                #return f"http://localhost:8000/media/products/{self.id}.jpg"
             except:
                 return "이미자없음"
 
