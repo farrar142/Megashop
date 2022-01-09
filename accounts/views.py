@@ -97,11 +97,13 @@ def Kakao_login_callback(request):
 
 class CustomView(LoginView):
     
+    @csrf_exempt
     def post(self, request, *args, **kwargs):
         if request.data.get('refresh'):
             self.refresh_page()
         return super().post(self, request, *args, **kwargs)
 
+    @csrf_exempt
     def refresh_page(self):
 
         return redirect("index")
