@@ -100,7 +100,8 @@ class CustomView(auth_views):
     Intentionally simple parent class for all views. Only implements
     dispatch-by-method and simple sanity checking.
     """
+    
     @csrf_exempt
     @classonlymethod
     def as_view(cls, **initkwargs):
-        super().as_view()
+        pass
