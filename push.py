@@ -14,7 +14,7 @@ def argv_or_input():
     message = ""
     if len(sys.argv) >= 2:
         for i in sys.argv[1:]:
-            message += i
+            message += i+" "
     else:
         message = input("commit message)\n")
     return message
