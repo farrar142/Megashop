@@ -15,6 +15,8 @@ from django.urls import reverse
 from .forms import SignupForm
 from .models import User
 from .protected import *
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
