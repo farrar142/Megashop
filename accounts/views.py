@@ -107,3 +107,8 @@ class CustomView(LoginView):
     def refresh_page(self):
 
         return redirect("index")
+    
+    @csrf_exempt
+    @classonlymethod
+    def as_view():
+        super().as_view()
