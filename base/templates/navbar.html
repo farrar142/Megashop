@@ -2,14 +2,14 @@
 {% load static %}
 <div class = nav-container>
     <ul class="nav left">
-        <li id = "home" class="nav-item">
-            <a href="{% url 'index' %}">
-                <i class="fa-solid fa-house"></i>
-            </a>
-        </li>
-        <li id = "logo" class="nav-item">
-            <span>MegaShop</span>
-        </li>
+        <a href="{% url 'index' %}">
+            <li id = "home" class="nav-item">
+                    <i class="fa-solid fa-house"></i>
+            </li>
+            <li id = "logo" class="nav-item">
+                <span>MegaShop</span>
+            </li>
+        </a>
     </ul>
     <ul class="nav center">
         <form method="get" class="nav-item">
