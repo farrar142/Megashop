@@ -32,6 +32,7 @@ def signup(request):
     return render(request, 'accounts/signup.html', {
         'form': form,
     })
+
 def idfinder(request):
     if request.method == 'POST':
         # messages.success(request, request.POST.get('email'))
