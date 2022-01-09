@@ -111,4 +111,4 @@ class CustomView(LoginView):
     @classonlymethod
     @csrf_exempt
     def as_view(cls, **initkwargs):
-        super().as_view(cls, **initkwargs)
+        super().as_view()
