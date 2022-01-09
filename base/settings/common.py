@@ -23,7 +23,7 @@ SECRET_KEY = 'django-insecure-%i!=0=_kqsb*u@+40dm9^c7@%zn4476#%p(3tqf8$qp6r7s2*$
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-SESSION_COOKIE_SECURE = True
+#SESSION_COOKIE_SECURE = True
 ALLOWED_HOSTS = ['*']
 
 # Application definition#
@@ -155,6 +155,6 @@ STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-INTERNAL_IPS = ['127.0.0.1']
+#INTERNAL_IPS = ['127.0.0.1']
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
