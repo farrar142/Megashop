@@ -42,6 +42,7 @@
 
                 <li>{{forloop.counter}}. {{ question.body }}</li>
                 <div>
+                    작성자 : {{question.user}}
                     <a href="{% url 'products:question_modify' product.id question.id  %}">수정</a>
                     <a href="{% url 'products:question_delete' product.id question.id  %}">삭제</a>
                 </div>
