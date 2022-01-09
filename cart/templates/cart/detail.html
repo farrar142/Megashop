@@ -34,7 +34,7 @@
                     {% endautoescape %}
                     </td>
                     <td>
-                    {{option.product_real.product.sale_price|multiple(option.quantity)}}
+                    {{option.product_real.product.sale_price|multiple:option.quantity}}
                     </td>
                     <form action="{% url 'cart:modify' option.id %}" method="post">
                     {% csrf_token %}
