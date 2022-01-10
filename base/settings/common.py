@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-%i!=0=_kqsb*u@+40dm9^c7@%zn4476#%p(3tqf8$qp6r7s2*$'
-CSRF_TRUSTED_ORIGINS = ['site1.honeycombpizza.link']
+CSRF_TRUSTED_ORIGINS = ['https://*.honeycombpizza.link']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 #SESSION_COOKIE_SECURE = True
