@@ -180,7 +180,7 @@ def deploy():
     except:
         pass
     print("3.make_Test_Image")
-    os.system("docker pull python:3")
+    os.system("docker pull python:3.10")
     os.system(f"docker build -t {cur_image_name} .")
     print("4.make_Test_Con_And_Test")
     os.system(f"docker run -d -p {test_port}:{test_port} --name {test_con_name} {cur_image_name} gunicorn --bind 0:{test_port} {path}.wsgi")
