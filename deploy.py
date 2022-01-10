@@ -18,7 +18,7 @@ def deploy():
     test_port="8001"
     deploy_port="8000"    
     cur_image_name = f"{image_name}:{cur_time}" 
-    execute_file="manage.py"
+    execute_file="manage1.py"
     deploy_setting_file="base.settings.prod"
     cur_image_name = f"{image_name}:{cur_time}"  
       
