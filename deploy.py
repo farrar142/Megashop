@@ -38,14 +38,8 @@ def deploy():
     print("3.make_Test_Image")
     os.system("docker pull python:3.10")
     os.system(f"docker build -t {cur_image_name} .")
-    os.system("docker images")
     print("4.make_Test_Con_And_Test")
-    print(f"docker run -d -p {test_port}:{test_port} --name {test_con_name} {cur_image_name} gunicorn --bind 0:{test_port} {path}.wsgi")
-    try:
-        os.system(f"docker run -d -p {test_port}:{test_port} --name {test_con_name} {cur_image_name} gunicorn --bind 0:{test_port} {path}.wsgi")
-    except:        
-        os.system(f"docker rm -f {test_con_name}")
-        os.system(f"docker rmi -f {cur_image_name}")
+    os.system(f"docker run -d -p {test_port}:{test_port} --name {test_con_name} {cur_image_name} gunicorn --bind 0:{test_port} {path}.wsgi")
     print("5.get_Test_Con_Info")
     con_info = get_specific_container(f"{test_con_name}")
     try:
@@ -53,6 +47,7 @@ def deploy():
     except:
         os.system(f"docker rm -f {test_con_name}")
         os.system(f"docker rmi -f {cur_image_name}")
+        os.system(f"docker container prune -y")
         raise Exception("ImageBuildFailed Please Check tests.py files or Requirements Setting")
     if connection_checker(test_con) == False:
         os.system(f"docker rm -f {test_con.container_name}")
@@ -63,6 +58,7 @@ def deploy():
         if init == False:##첫실행이 아닐시
             os.system(f"docker rm -f {prev_con.container_name}")
             os.system(f"docker rmi -f {prev_con.image_name}")
+            os.system(f"docker container prune -y")
         os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name} {cur_image_name} gunicorn --bind 0:{deploy_port} {path}.wsgi")
         os.system(f"docker exec {deploy_con_name} python3 {execute_file} migrate --settings {deploy_setting_file}")
         #messagr success##
