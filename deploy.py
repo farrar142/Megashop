@@ -4,6 +4,65 @@ import subprocess
 import time
 import socket
 from datetime import datetime
+def deploy():
+    cur_time = get_now()
+    path = get_setting_path()
+    init = False
+    
+    requirements_path = "requirements/prod.txt"
+    
+    
+    image_name="python1"
+    deploy_con_name="python__1"
+    test_con_name="test_con"
+    test_port="8001"
+    deploy_port="8000"    
+    cur_image_name = f"{image_name}:{cur_time}" 
+    execute_file="prod.py"
+    deploy_setting_file="base.settings.prod"
+    cur_image_name = f"{image_name}:{cur_time}"  
+      
+    revise_dockerfile(execute_file,requirements_path)
+    try:
+        print("1.get_prev_con")
+        prev_con = Container(get_specific_container(f"{deploy_con_name}"))
+    except:
+        init = True
+    try:
+        print("2.shutdown_cached_container")
+        shut_con = Container(get_specific_container(f"{test_con_name}"))
+        os.system(f"docker rm -f {test_con_name}")
+        os.system(f"docker rmi -f {shut_con.image_name}")
+    except:
+        pass
+    print("3.make_Test_Image")
+    os.system("docker pull python:3.10")
+    os.system(f"docker build -t {cur_image_name} .")
+    print("4.make_Test_Con_And_Test")
+    os.system(f"docker run -d -p {test_port}:{test_port} --name {test_con_name} {cur_image_name} gunicorn --bind 0:{test_port} {path}.wsgi")
+    print("5.get_Test_Con_Info")
+    con_info = get_specific_container(f"{test_con_name}")
+    try:
+        test_con = Container(con_info)
+    except:
+        os.system(f"docker rmi -f {cur_image_name}")
+        raise Exception("ImageBuildFailed Please Check tests.py files or Requirements Setting")
+    if connection_checker(test_con) == False:
+        os.system(f"docker rm -f {test_con.container_name}")
+        os.system(f"docker rmi -f {cur_image_name}")
+        raise Exception("Connection Failed")
+    else:##connection check success
+        os.system(f"docker rm -f {test_con.container_name}")
+        if init == False:##첫실행이 아닐시
+            os.system(f"docker rm -f {prev_con.container_name}")
+            os.system(f"docker rmi -f {prev_con.image_name}")
+        os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name} {cur_image_name} gunicorn --bind 0:{deploy_port} {path}.wsgi")
+        os.system(f"docker exec {deploy_con_name} python3 {execute_file} migrate --settings {deploy_setting_file}")
+        #messagr success##
+        print(" ")#
+        print("Build Succeed")
+        print("Container Info")
+        get_specific_container(f"{deploy_con_name}")
 
 class Container:
     def __init__(self,con):
@@ -150,64 +209,16 @@ def get_setting_path():
         return setting_path.split("\\")[-1]
     else:
         return setting_path.split("/")[-1]
-def revise_dockerfile(execute_file):
-    context = f"FROM python:3.10\nENV PYTHONUNBUFFERED 1\nWORKDIR /usr/src/app\nCOPY . .\n#requirements.txt의 경로를 수정해주세요\n#같은 위치에 있다면 requirements.txt\n#다른 폴더에 있다면 폴더이름/텍스트파일.txt 의 형식입니다.\nRUN pip3 install -r requirements.txt\nRUN python3 {execute_file} test"
+def revise_dockerfile(execute_file,requirements_path):
+    """
+    dockerfile의 test 를 실행 할 때 사용할 설정 파일을 수정해줍니다.
+    Args:
+        execute_file ([파일이름]])
+    """
+    context = f"FROM python:3.10\nENV PYTHONUNBUFFERED 1\nWORKDIR /usr/src/app\nCOPY . .\n#deploy.py에서 requirements_path를 수정해주세요\n#다른 폴더에 있다면 폴더이름/텍스트파일.txt 의 형식입니다.\nRUN pip3 install -r {requirements_path}\nRUN python3 {execute_file} test"
     f = open("dockerfile",'w',encoding='UTF-8')
     f.write(context)
     f.close()
-def deploy():
-    cur_time = get_now()
-    path = get_setting_path()
-    init = False
-    image_name="python1"
-    deploy_con_name="python__1"
-    test_con_name="test_con"
-    test_port="8001"
-    deploy_port="8000"
-    execute_file="prod.py"
-    deploy_setting_file="base.settings.prod"
-    cur_image_name = f"{image_name}:{cur_time}"    
-    revise_dockerfile(execute_file)
-    try:
-        print("1.get_prev_con")
-        prev_con = Container(get_specific_container(f"{deploy_con_name}"))
-    except:
-        init = True
-    try:
-        print("2.shutdown_cached_container")
-        shut_con = Container(get_specific_container(f"{test_con_name}"))
-        os.system(f"docker rm -f {test_con_name}")
-        os.system(f"docker rmi -f {shut_con.image_name}")
-    except:
-        pass
-    print("3.make_Test_Image")
-    os.system("docker pull python:3.10")
-    os.system(f"docker build -t {cur_image_name} .")
-    print("4.make_Test_Con_And_Test")
-    os.system(f"docker run -d -p {test_port}:{test_port} --name {test_con_name} {cur_image_name} gunicorn --bind 0:{test_port} {path}.wsgi")
-    print("5.get_Test_Con_Info")
-    con_info = get_specific_container(f"{test_con_name}")
-    try:
-        test_con = Container(con_info)
-    except:
-        os.system(f"docker rmi -f {cur_image_name}")
-        raise Exception("ImageBuildFailed Please Check tests.py files or Requirements Setting")
-    if connection_checker(test_con) == False:
-        os.system(f"docker rm -f {test_con.container_name}")
-        os.system(f"docker rmi -f {cur_image_name}")
-        raise Exception("Connection Failed")
-    else:##connection check success
-        os.system(f"docker rm -f {test_con.container_name}")
-        if init == False:##첫실행이 아닐시
-            os.system(f"docker rm -f {prev_con.container_name}")
-            os.system(f"docker rmi -f {prev_con.image_name}")
-        os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name} {cur_image_name} gunicorn --bind 0:{deploy_port} {path}.wsgi")
-        os.system(f"docker exec {deploy_con_name} python3 {execute_file} migrate --settings {deploy_setting_file}")
-        #messagr success##
-        print(" ")#
-        print("Build Succeed")
-        print("Container Info")
-        get_specific_container(f"{deploy_con_name}")
 
 def main():
     deploy()
