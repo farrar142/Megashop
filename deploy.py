@@ -38,9 +38,14 @@ def deploy():
     print("3.make_Test_Image")
     os.system("docker pull python:3.10")
     os.system(f"docker build -t {cur_image_name} .")
+    os.system("docker images")
     print("4.make_Test_Con_And_Test")
     print(f"docker run -d -p {test_port}:{test_port} --name {test_con_name} {cur_image_name} gunicorn --bind 0:{test_port} {path}.wsgi")
-    os.system(f"docker run -d -p {test_port}:{test_port} --name {test_con_name} {cur_image_name} gunicorn --bind 0:{test_port} {path}.wsgi")
+    try:
+        os.system(f"docker run -d -p {test_port}:{test_port} --name {test_con_name} {cur_image_name} gunicorn --bind 0:{test_port} {path}.wsgi")
+    except:        
+        os.system(f"docker rm -f {test_con_name}")
+        os.system(f"docker rmi -f {cur_image_name}")
     print("5.get_Test_Con_Info")
     con_info = get_specific_container(f"{test_con_name}")
     try:
