@@ -4,7 +4,6 @@ from django.http.response import HttpResponseNotAllowed
 import requests
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
-from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 # Create your views here.

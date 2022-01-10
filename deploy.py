@@ -16,12 +16,14 @@ def deploy():
     requirements_path = "requirements/prod.txt"
         
     image_name="python1"
+    
     deploy_con_name="python__1"
+    test_con_name="python__1__test"
     database_con_name="mariadb__1"
     
-    test_con_name="python__1__test"
     test_port="8001"
     deploy_port="8000"     
+    
     execute_file="manage.py"
     deploy_setting_file=f"{path}.settings.prod"
     cur_image_name = f"{image_name}:{cur_time}"
@@ -89,9 +91,14 @@ def deploy():
         print("Build Succeed")
         print("Container Info")
         get_specific_container(f"{deploy_con_name}")
-    
-    os.remove(f"{deploylogfile}")
-    os.remove(f"{deploydockerfile}")
+    try:
+        os.remove(f"{deploylogfile}")
+    except:
+        pass
+    try:
+        os.remove(f"{deploydockerfile}")
+    except:
+        pass
 class Container:
     def __init__(self,con):
         self.container_name = con[0]
