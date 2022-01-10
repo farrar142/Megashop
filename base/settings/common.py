@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     # 서드파티
     # 로컬
-    'django_bootstrap5'
+    'django_bootstrap5',
     'accounts.apps.AccountsConfig',
     'cart.apps.CartConfig',
     'markets.apps.MarketsConfig',
