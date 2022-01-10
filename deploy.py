@@ -35,7 +35,7 @@ def deploy():
     
     print("0.DB컨테이너 확인")
     try:
-        db_con = Container(get_specific_container(f"{database_con_name}"))
+        db_con = Container(["anydb","","none needs","3306","172.17.0.1"])
         if connection_checker(db_con,1)==False:
             raise Exception("DB 컨테이너 연결 실패")
     except:
@@ -211,7 +211,7 @@ def connection_checker(test_con,counter):
     else:
         myip = socket.gethostbyname(socket.gethostname())
     print(f"네트워크 연결 준비")
-    print(f"로컬IP주소   :{myip}")
+    print(f"도커호스트   :{myip}")
     print(f"포트주소     :{test_con.port}")
     server_address = (myip,int(test_con.port))
     fail_counter = 0
