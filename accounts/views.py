@@ -27,7 +27,7 @@ for path, dirs, files in os.walk(os.getcwd()):
         if i == '.env':
             setting_path = path
             break
-dotenv.read_dotenv(setting_path.split("/")[-1]+'.env')
+dotenv.read_dotenv(setting_path)
 
 def signup(request):
     if request.method == 'POST':
