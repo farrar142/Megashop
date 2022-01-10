@@ -9,4 +9,4 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN pip3 install -r requirements/prod.txt
-RUN python3 manage.py test
+RUN python3 prod.py test
