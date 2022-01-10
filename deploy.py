@@ -69,6 +69,7 @@ def deploy():
     con_info = get_specific_container(f"{test_con_name}")
     try:
         test_con = Container(con_info)
+        test_con.ip = "172.17.0.1"
     except:
         shut_img_con(test_con_name,cur_image_name)
         raise Exception("테스트 컨테이너 실행이 실패했습니다. requirements나 setting을 확인해주세요")
