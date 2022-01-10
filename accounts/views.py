@@ -20,15 +20,8 @@ from django.utils.decorators import classonlymethod
 import logging
 logger = logging.getLogger('django.request')
 from django.contrib.auth import views as auth_views
-import dotenv
-setting_path = ""
-for path, dirs, files in os.walk(os.getcwd()):
-    for i in files:
-        if i == '.env':
-            setting_path = path
-            break
-dotenv.read_dotenv(setting_path)
-
+from ..env_finder import read_env
+read_env()
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -98,9 +91,3 @@ def Kakao_login_callback(request):
     messages.success(request, f"{user.username}님 카카오톡 계정으로 로그인되었습니다")
 
     return redirect("index")
-
-
-def get_setting_path():
-    """
-    find the setting.py's directory
-    """
