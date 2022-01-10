@@ -24,3 +24,4 @@ def read_env():
                 setting_path = path
                 break
     dotenv.read_dotenv(setting_path)
+read_env()
