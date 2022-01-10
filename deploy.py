@@ -278,7 +278,10 @@ def env_getter():
     target.close()
     f.close()
 def main():
-    env_getter()
+    try:
+        env_getter()
+    except:
+        raise Exception(".env파일을 프로젝트 경로 위에 만들어 주세요")
     deploy()
 
 if __name__ == "__main__":
