@@ -45,6 +45,7 @@ def deploy():
     try:
         test_con = Container(con_info)
     except:
+        os.system(f"docker rm -f {test_con_name}")
         os.system(f"docker rmi -f {cur_image_name}")
         raise Exception("ImageBuildFailed Please Check tests.py files or Requirements Setting")
     if connection_checker(test_con) == False:
