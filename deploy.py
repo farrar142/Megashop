@@ -1,8 +1,4 @@
-import os,sys
-import locale
-import subprocess
-import time
-import socket
+import os,locale,subprocess,time,socket
 from datetime import datetime
 from pathlib import Path
 
@@ -19,7 +15,6 @@ def deploy():
     
     deploy_con_name="python__1"
     test_con_name="python__1__test"
-    database_con_name="mariadb__1"
     
     test_port="8001"
     deploy_port="8000"     
@@ -32,14 +27,14 @@ def deploy():
     deploylogfile = "deploy_log_file.txt"
     
     make_deploy_logs(deploylogfile)
-    
+    #소켓통신으로 도커호스트:3306에 신호를 보냄.
     print("0.DB컨테이너 확인")
     try:
         db_con = Container(["anydb","","none needs","3306","172.17.0.1"])
         if connection_checker(db_con,1)==False:
-            raise Exception("DB 컨테이너 연결 실패")
+            raise Exception("DB 컨테이너 연결 실패 \n 도커에 3306으로 열려있는 db를 확인하여주세요")
     except:
-        raise Exception("DB 컨테이너 연결 실패")
+        raise Exception("DB 컨테이너 연결 실패 \n 도커에 3306으로 열려있는 db를 확인하여주세요")
     revise_dockerfile(execute_file,requirements_path,deploydockerfile)
     
     print("1.배포용 컨테이너 확인")
