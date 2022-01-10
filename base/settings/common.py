@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     # 서드파티
-    'django_bootstrap5',
     # 로컬
     'accounts.apps.AccountsConfig',
     'cart.apps.CartConfig',
@@ -143,11 +142,13 @@ USE_TZ = False
 #
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 추가
+# 추가#
 AUTH_USER_MODEL = "accounts.User"
-
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+#STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = [
+    BASE_DIR/ 'static'
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
