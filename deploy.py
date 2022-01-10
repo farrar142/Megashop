@@ -43,7 +43,7 @@ def deploy():
     print("5.get_Test_Con_Info")
     con_info = get_specific_container(f"{test_con_name}")
     try:
-        test_con = Container(con_info)f
+        test_con = Container(con_info)
     except:
         os.system(f"docker rm -f {test_con_name}")
         os.system(f"docker rmi -f {cur_image_name}")
