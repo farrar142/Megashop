@@ -36,7 +36,6 @@ def deploy():
     print("0.DB컨테이너 확인")
     try:
         db_con = Container(get_specific_container(f"{database_con_name}"))
-        db_con.ip = "172.17.0.1"
         if connection_checker(db_con,1)==False:
             raise Exception("DB 컨테이너 연결 실패")
     except:
@@ -69,7 +68,6 @@ def deploy():
     con_info = get_specific_container(f"{test_con_name}")
     try:
         test_con = Container(con_info)
-        test_con.ip = "172.17.0.1"
     except:
         shut_img_con(test_con_name,cur_image_name)
         raise Exception("테스트 컨테이너 실행이 실패했습니다. requirements나 setting을 확인해주세요")
@@ -105,7 +103,8 @@ class Container:
     def __init__(self,con):
         self.container_name = con[0]
         self.image_name = con[2]
-        self.ip = con[-1]
+        #self.ip = con[-1]
+        self.ip = "172.17.0.1"
         self.port = con[-2]
 def get_sys():
     """
