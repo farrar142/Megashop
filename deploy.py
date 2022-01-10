@@ -15,6 +15,7 @@ def get_sys():
     """
     get_os_name
     """
+    global os_encoding
     os_encoding = locale.getpreferredencoding()
     if os_encoding.upper() == 'cp949'.upper():
         return "Win"
@@ -149,16 +150,23 @@ def get_setting_path():
         return setting_path.split("\\")[-1]
     else:
         return setting_path.split("/")[-1]
+def revise_dockerfile(execute_file):
+    context = f"FROM python:3.10\nENV PYTHONUNBUFFERED 1\nWORKDIR /usr/src/app\nCOPY . .\n#requirements.txt의 경로를 수정해주세요\n#같은 위치에 있다면 requirements.txt\n#다른 폴더에 있다면 폴더이름/텍스트파일.txt 의 형식입니다.\nRUN pip3 install -r requirements.txt\nRUN python3 {execute_file} test"
+    f = open("dockerfile",'w',encoding='UTF-8')
+    f.write(context)
+    f.close()
 def deploy():
     cur_time = get_now()
     path = get_setting_path()
     init = False
-    image_name="python__1"
-    deploy_con_name="python1"
+    image_name="python1"
+    deploy_con_name="python__1"
     test_con_name="test_con"
     test_port="8001"
     deploy_port="8000"
-    cur_image_name = f"{image_name}:{cur_time}"
+    execute_file="prod.py"
+    cur_image_name = f"{image_name}:{cur_time}"    
+    revise_dockerfile(execute_file)
     try:
         print("1.get_prev_con")
         prev_con = Container(get_specific_container(f"{deploy_con_name}"))
@@ -192,7 +200,7 @@ def deploy():
             os.system(f"docker rm -f {prev_con.container_name}")
             os.system(f"docker rmi -f {prev_con.image_name}")
         os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name} {cur_image_name} gunicorn --bind 0:{deploy_port} {path}.wsgi")
-        os.system(f"docker exec {deploy_con_name} python3 prod.py migrate")
+        os.system(f"docker exec {deploy_con_name} python3 {execute_file} migrate")
         #messagr success##
         print(" ")#
         print("Build Succeed")
