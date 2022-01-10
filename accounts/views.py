@@ -4,24 +4,15 @@ from django.http.response import HttpResponseNotAllowed
 import requests
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
-from django.contrib.auth.views import (
-    logout_then_login, LoginView,
-)
-from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 from django.shortcuts import render, redirect
 # Create your views here.
 from django.urls import reverse
 from .forms import SignupForm
 from .models import User
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import classonlymethod
 import logging
 logger = logging.getLogger('django.request')
-from django.contrib.auth import views as auth_views
-from ..env_finder import read_env
-read_env()
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
