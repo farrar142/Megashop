@@ -20,6 +20,14 @@ from django.utils.decorators import classonlymethod
 import logging
 logger = logging.getLogger('django.request')
 from django.contrib.auth import views as auth_views
+import dotenv
+setting_path = ""
+for path, dirs, files in os.walk(os.getcwd()):
+    for i in files:
+        if i == '.env':
+            setting_path = path
+            break
+dotenv.read_dotenv(setting_path.split("/")[-1]+'.env')
 
 def signup(request):
     if request.method == 'POST':
@@ -92,3 +100,7 @@ def Kakao_login_callback(request):
     return redirect("index")
 
 
+def get_setting_path():
+    """
+    find the setting.py's directory
+    """
