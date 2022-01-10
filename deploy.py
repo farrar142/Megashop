@@ -202,7 +202,7 @@ def deploy():
             os.system(f"docker rm -f {prev_con.container_name}")
             os.system(f"docker rmi -f {prev_con.image_name}")
         os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name} {cur_image_name} gunicorn --bind 0:{deploy_port} {path}.wsgi")
-        os.system(f"docker exec {deploy_con_name} python3 {execute_file} migrate --name {deploy_setting_file}")
+        os.system(f"docker exec {deploy_con_name} python3 {execute_file} migrate --settings {deploy_setting_file}")
         #messagr success##
         print(" ")#
         print("Build Succeed")
