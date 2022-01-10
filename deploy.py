@@ -36,7 +36,7 @@ def deploy():
     print("0.DB컨테이너 확인")
     try:
         db_con = Container(get_specific_container(f"{database_con_name}"))
-        db_con.ip = "172.0.0.1"
+        db_con.ip = "172.17.0.1"
         if connection_checker(db_con,1)==False:
             raise Exception("DB 컨테이너 연결 실패")
     except:
