@@ -15,7 +15,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import SignupForm
 from .models import User
-from .protected import *
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import classonlymethod
 import logging
@@ -55,16 +54,16 @@ def idfinder(request):
     return render(request, 'accounts/idfinder.html')
 
 def Kakao_login(request : HttpRequest):
-    REST_API_KEY = KAKAO_APP__REST_API_KEY
-    REDIRECT_URI = KAKAO_APP__LOGIN__REDIRECT_URI
+    REST_API_KEY = os.environ.get("KAKAO_APP__REST_API_KEY")
+    REDIRECT_URI = os.environ.get("KAKAO_APP__LOGIN__REDIRECT_URI")
     kakao_auth_api = "https://kauth.kakao.com/oauth/authorize?"
     return redirect(
         f"{kakao_auth_api}client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code"
     )
 def Kakao_login_callback(request):
     code = request.GET.get("code")
-    REST_API_KEY = KAKAO_APP__REST_API_KEY
-    REDIRECT_URI = KAKAO_APP__LOGIN__REDIRECT_URI
+    REST_API_KEY = os.environ.get("KAKAO_APP__REST_API_KEY")
+    REDIRECT_URI = os.environ.get("KAKAO_APP__LOGIN__REDIRECT_URI")
     
     token_request = requests.get(
         f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&code={code}"
