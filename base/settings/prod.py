@@ -15,5 +15,5 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-env_path = Path(__file__).resolve().parent.parent.parent + "/.env"
+env_path = f"{str(Path(__file__).resolve().parent)}/.env"
 dotenv.read_dotenv(env_path)
