@@ -22,7 +22,6 @@ import logging
 logger = logging.getLogger('django.request')
 from django.contrib.auth import views as auth_views
 
-@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
