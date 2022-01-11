@@ -10,8 +10,7 @@ COPY wait.sh .
 COPY . .
 
 RUN pip3 install -r requirements/dev.txt \
-    && apt-get update \
-    && apt-get install netcat-openbsd -y
+    && apt-get update
 
-ENTRYPOINT python3 dev.py migrate && python3 dev.py runserver 0.0.0.0:8000
+ENTRYPOINT python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
 EXPOSE 8000

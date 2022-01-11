@@ -55,8 +55,15 @@ def modify_quantity(request,cartitem_id):
     return redirect("cart:detail")
 
 @login_required(login_url='accounts:signin')
-def delete_cartitem(request,cartitem_id):
+def delete_cartitem(request,cartitem_id):    
     cartitem = CartItem.objects.get(id=cartitem_id)
     cartitem.delete()
     messages.success(request,f"{cartitem} 삭제됨")
+    return redirect("cart:detail")
+
+def delete_all(request):
+    if request.method == 'POST':
+        selected = request.POST.getlist('cartitems')
+        messages.success(request,selected)
+    
     return redirect("cart:detail")

@@ -3,66 +3,84 @@
 {% load static %}
 {% load humanize %}
 {% load products_filter %}
-<table name = "카트 아이템 정보">
+<script>
+    function selectAll(selectAll)  {
+        const checkboxes 
+             = document.getElementsByName('cartitems');
+        
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = selectAll.checked;
+        })
+      }
+</script>
+<table name = "카트 아이템 정보">    
     <tbody class="">
-    <th>이미지</th>    
-    <th>상품명</th>
-    <th>사이즈</th>
-    <th>컬러</th>
-    <th>가격</th>
-    <th>수량</th>
-    <th></th>
-    <th></th>
+        <th>
+            <input type="checkbox" name='selectall' value='selectAll' onclick='selectAll(this)'>
+        </th>
+        <th>이미지</th>    
+        <th>상품명</th>
+        <th>사이즈</th>
+        <th>컬러</th>
+        <th>가격</th>
+        <th>수량</th>
+        <th></th>
+        <form action="{% url 'cart:deleteall' %}" method="post">
+        <th><button type='submit'>삭제</button></th>
     </tbody>
-    <div name = "카트 상품들">
-        {% if user.is_authenticated %}    
-            {% if user.is_cart %}
-                {% for option in carts %}
-                <tr>
-                    <td>
-                        <img src="{{option.product_real.product.thumb_img_url}}" alt="">
-                    </td>
-                    <td>
-                    {{option.product_real.product}}
-                    </td>
-                    <td>
-                    {{option.product_real.option_1_display_name}}
-                    </td>
-                    <td>
-                    {% autoescape off %}
-                    {{option.product_real.color}}
-                    {% endautoescape %}
-                    </td>
-                    <td>
-                    {{option.product_real.product.sale_price|multiple:option.quantity|intcomma}}
-                    </td>
-                    <form action="{% url 'cart:modify' option.id %}" method="post">
-                    {% csrf_token %}
-                    <td>
-                        <input type="number" name="quantity" min="0" value={{option.quantity}}>
-                    </td>
-                    <td>
-                        <p class ="btn btn-primary">
-                            <input type = "submit" value="변경">
-                        </p>
-                    </td>
-                    </form>
-                    <form action="{% url 'cart:delete' option.id %}" method="post">
+        <div name = "카트 상품들">
+            {% if user.is_authenticated %}    
+                {% if user.is_cart %}
+                    {% for option in carts %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" name='cartitems' value='{{option.id}}'>
+                        </td>
+                        <td>
+                            <img style="height:100px; width:100px" src="{{option.product_real.product.thumb_img_url}}" alt="">
+                        </td>
+                        <td>
+                        {{option.product_real.product}}
+                        </td>
+                        <td>
+                        {{option.product_real.option_1_display_name}}
+                        </td>
+                        <td>
+                        {% autoescape off %}
+                        {{option.product_real.color}}
+                        {% endautoescape %}
+                        </td>
+                        <td>
+                        {{option.product_real.product.sale_price|multiple:option.quantity|intcomma}}
+                        </td>
+                        <form action="{% url 'cart:modify' option.id %}" method="post">
                         {% csrf_token %}
-                    <td>
-                        <p class ="btn btn-primary">                   
-                            <input type = "submit" value="제거">
-                        </p>
-                    </td>
-                    </form>
-                </tr>
-                {% endfor %}
-            {%else%}
-            <tr><td>상품없음</td></tr>  
-            {% endif %}  
-        {% endif %}        
-        </tbody>
-    </div>
+                        <td>
+                            <input type="number" name="quantity" min="0" value={{option.quantity}}>
+                        </td>
+                        <td>
+                            <p class ="btn btn-primary">
+                                <input type = "submit" value="변경">
+                            </p>
+                        </td>
+                        </form>
+                        <form action="{% url 'cart:delete' option.id %}" method="post">
+                            {% csrf_token %}
+                        <td>
+                            <p class ="btn btn-primary">                   
+                                <input type = "submit" value="제거">
+                            </p>
+                        </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                {%else%}
+                <tr><td>상품없음</td></tr>  
+                {% endif %}  
+            {% endif %}        
+            </tbody>
+        </div>
+    </form>
 </table>
 <div>
     <table>
